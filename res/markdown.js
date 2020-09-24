@@ -3,7 +3,7 @@ function _markdown() {
   var bold_re = /(?:\*\*(.*?)\*\*)|(?:__(.*?)__)/gi;
   var italic_re = /(?:\*(.*?)\*)|(?:_(.*?)_)/gi;
   var image_re = /!\[([^\]\n]*)\]\(([^\)\n]+)\)/gi;
-  var linebr_re = /n\n+/gi;
+  var linebr_re = /\n\n+/gi;
   var ul_re = /\n((?:[-*]\s.*?\n)+)/gi;
   var ul_li_re = /\n\s*[-*]\s(.*)/gi;
   var ol_re = /\n((?:\d\.\s.*?\n)+)/gi;
