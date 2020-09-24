@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Random starter question picker</title>
+        <link rel="stylesheet" href="res/base.css" />
+        <script type="text/javascript" src="res/markdown.js"></script>
+        <script type="text/javascript" src="res/main.js"></script>
+        <script type="text/javascript" src="res/picker.js"></script>
+        <script type="text/javascript" src="res/builder.js"></script>
+    </head>
+    <body>
+        <div id="start">
+            <button id="newQuestions" onclick="main.newQuestionPack()">Start a new question pack"</button>
+            <p>or, load an existing questions file:</p>
+            <input type="file" id="questionLoader" oninput="main.loadQuestionsFile()" />
+        </div>
+        <div id="run">
+            <input id="qcount" type="number" value="3" class="number" /><button onclick="chooseRandom()">Choose random questions</button>
+            <div id="questions">
+                <!-- REPLACE ME -->
+            </div>
+        </div>
+        <div id="build">
+            <h1>Build your question pack</h1>
+            <div id="editQuestions">
+
+            </div>
+            <button onclick="build.addQuestion()">+ Add Question</button>
+        </div>
+    </body>
+</html>

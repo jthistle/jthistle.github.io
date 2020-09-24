@@ -1,0 +1,82 @@
+body {
+    margin: 2rem auto;
+    font-family: sans-serif;
+    font-size: 1.1rem;
+    max-width: 80rem;
+}
+
+img {
+    display: block;
+}
+
+#editQuestions {
+    margin: 2rem 0;
+}
+
+#questions {
+    margin-bottom: 15rem;
+}
+
+.question {
+    display: block;
+    border: 1px solid #444;
+    margin: 1rem auto 0 auto;
+    width: 50rem;
+    padding: 1rem 1rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.questionNum {
+    display: block;
+    font-size: 0.75rem;
+    color: #777;
+    padding-top: 1rem;
+}
+
+.number {
+    width: 5rem;
+    margin: 1rem;
+    text-align: center;
+}
+
+button, input {
+    height: 3rem;
+    font-size: 1.1rem;
+    border-radius: 0.25rem;
+}
+
+img {
+    max-width: 80%;
+    margin: 3rem auto;
+}
+
+button {
+    border: 1px solid #444;
+}
+
+.questionToolbar {
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.questionToolbar > * {
+    font-size: 1rem;
+    height: 2rem;
+    margin-right: 0.5rem;
+}
+
+textarea {
+    width: 100%;
+    max-width: 100%;
+    height: 15rem;
+    font-size: 1rem;
+}
+
+button.delete {
+    background: darkred;
+    color: white;
+    font-weight: bold;
+}
