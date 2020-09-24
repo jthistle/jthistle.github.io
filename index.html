@@ -9,15 +9,21 @@
         <script type="text/javascript" src="res/builder.js"></script>
     </head>
     <body>
+        <div id="nav">
+        </div>
         <div id="start">
-            <button id="newQuestions" onclick="main.newQuestionPack()">Start a new question pack"</button>
+            <h1>Starter question maker</h1>
+            <button id="newQuestions" onclick="main.newQuestionPack()">Start a new question pack</button>
             <p>or, load an existing questions file:</p>
-            <input type="file" id="questionLoader" oninput="main.loadQuestionsFile()" />
+            <input type="file" id="questionLoader" />
         </div>
         <div id="run">
-            <input id="qcount" type="number" value="3" class="number" /><button onclick="chooseRandom()">Choose random questions</button>
+            <button onclick="picker.nextQuestion()">Next Question ▶</button>
+            <button onclick="main.setView('build')">✍️ Edit Questions</button>
+            <button onclick="main.saveQuestions()">💾 Save to Computer</button>
+            <button onclick="picker.resetHistory()">↺ Reset Question History</button>
+            <div id="outOfQs" class="warning"></div>
             <div id="questions">
-                <!-- REPLACE ME -->
             </div>
         </div>
         <div id="build">
@@ -26,6 +32,8 @@
 
             </div>
             <button onclick="build.addQuestion()">+ Add Question</button>
+            <button onclick="main.setView('run')">✓ Finished</button>
+            <button onclick="main.saveQuestions()">💾 Save to Computer</button>
         </div>
     </body>
 </html>

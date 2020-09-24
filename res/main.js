@@ -25,17 +25,41 @@ function _main() {
 
   function loadQuestionsFile(e) {
     console.log(e);
+    var reader = new FileReader();
+    reader.onload = function (){
+      var txt = decodeURIComponent(reader.result);
+      questionsModel = JSON.parse(txt);
+      setView('run');
+      build.rebuildDOM();
+      picker.resetHistory();
+    };
+    reader.readAsText(e.target.files[0]);
   }
   
   function newQuestionPack() {
     setView("build");
     build.rebuildDOM();
+    picker.resetHistory();
+  }
+
+  function saveQuestions() {
+    var downloadLink = document.createElement("a");
+    downloadLink.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(questionsModel)));
+    downloadLink.setAttribute("download", "my-questions.json");
+
+    downloadLink.style.display = "none";
+    document.body.appendChild(downloadLink);
+
+    downloadLink.click();
+
+    document.body.removeChild(downloadLink);
   }
 
   return {
     setView: setView,
     loadQuestionsFile: loadQuestionsFile,
     newQuestionPack: newQuestionPack,
+    saveQuestions: saveQuestions,
   };
 }
 
@@ -43,4 +67,7 @@ var main = _main();
 
 window.onload = function () {
   main.setView("start");
+  document.getElementById("questionLoader").addEventListener("change", function (e) { 
+    main.loadQuestionsFile(e);
+  });
 }

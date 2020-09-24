@@ -13,8 +13,6 @@ function _markdown() {
     var replace = [];
     var match;
     while (match = image_re.exec(src)) {
-      console.log("match", match);
-
       var raw = questionsModel.images[match[2]];
 
       var replacement = '<img alt="' + match[1] + '" src="'+ (raw || "") +'" />';

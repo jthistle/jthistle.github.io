@@ -1,29 +1,57 @@
 var questionCount = 0;
 
-function hideQuestions() {
-    for (var i = 0; i < questionCount; i++) {
-        var question = document.getElementById("question" + i);
-        question.classList.remove("shown");
-        question.classList.add("hidden");
+function _picker() {
+  var history = [];
+  
+  function showQuestion(i) {
+    var question = questionsModel.questions[i];
+    var base = document.getElementById("questions");
+    base.textContent = "";
+
+    var newQ = document.createElement("div");
+    newQ.id = "question" + i;
+    newQ.classList.add("question");
+    base.appendChild(newQ);
+
+    newQ.innerHTML = markdown.parseToHTML(question.content);
+  }
+  
+  function nextQuestion() {
+    if (history.length == questionsModel.questions.length) {
+      document.getElementById("outOfQs").textContent = "No more questions!";
+      return;
     }
+
+    while (true) {
+      var n = Math.floor(Math.random() * questionsModel.questions.length);
+      
+      var alreadyDone = false;
+      for (var i = 0; i < history.length; ++i) {
+        if (history[i] == n) {
+          var alreadyDone = true;
+          break;
+        }
+      }
+      if (!alreadyDone) {
+        break;
+      }
+    }
+
+    history.push(n);
+    console.log(n);
+    showQuestion(n);
+  }
+
+  function resetHistory() {
+    history = [];
+    document.getElementById("outOfQs").textContent = "";
+    nextQuestion();
+  }
+  
+  return {
+    nextQuestion: nextQuestion,
+    resetHistory: resetHistory,
+  };
 }
 
-function chooseRandom() {
-    hideQuestions();
-    var chosen = [];
-    
-    var reqNum = document.getElementById("qcount").value;
-    var numQuestions = Math.min(reqNum, questionCount);
-    while (numQuestions > 0) {
-        var i = Math.floor(Math.random() * questionCount);
-        if (chosen.indexOf(i) !== -1) {
-            continue;
-        }
-        var question = document.getElementById("question" + i);
-        console.log(i);
-        question.classList.add("shown");
-        question.classList.remove("hidden");
-        numQuestions -= 1;
-        chosen.push(i);
-    }
-}
+var picker = _picker();

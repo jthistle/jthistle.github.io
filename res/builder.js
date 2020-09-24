@@ -79,6 +79,7 @@ function _build() {
     questionsModel.questions[i].content = document.getElementById("currentEditing").value;
     editing = -1;
     rebuildDOM();
+    picker.resetHistory();
   }
 
   function editQuestion(i) {
@@ -87,6 +88,7 @@ function _build() {
     }
     editing = i;
     rebuildDOM();
+    document.getElementById("currentEditing").focus();
   }
 
   function deleteQuestion(i) {
@@ -98,11 +100,10 @@ function _build() {
     questionsModel.questions.push({
       content: "",
     });
-    rebuildDOM();
+    editQuestion(questionsModel.questions.length - 1);
   }
   
   function addImage(i, e) {
-    console.log(e);
     var input = e.target;
     var reader = new FileReader();
     reader.onload = function (){
@@ -138,7 +139,10 @@ function _build() {
         questionsModel.images[filename] = url;
       }
 
-      document.getElementById("currentEditing").value += "\n\n![image](" + filename + ")";
+      var textarea = document.getElementById("currentEditing");
+      var val = textarea.value;
+      val = val.slice(0, textarea.selectionStart + 1) + "\n![image](" + filename + ")\n" + val.slice(textarea.selectionStart + 1, val.length - 1);
+      textarea.value = val;
     };
     reader.readAsDataURL(input.files[0]);
   }
