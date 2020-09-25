@@ -2,13 +2,16 @@
     <head>
         <meta charset="utf-8">
         <title>Random starter question picker</title>
+        <link rel="stylesheet" href="res/nano.min.css" />
         <link rel="stylesheet" href="res/base.css" />
+        <script type="text/javascript" src="res/pickr.es5.min.js"></script>
         <script type="text/javascript" src="res/markdown.js"></script>
         <script type="text/javascript" src="res/main.js"></script>
         <script type="text/javascript" src="res/picker.js"></script>
         <script type="text/javascript" src="res/builder.js"></script>
+        <script type="text/javascript" src="res/styling.js"></script>
     </head>
-    <body>
+    <body id="body">
         <div id="nav">
         </div>
         <div id="start">
@@ -33,6 +36,33 @@
             </div>
             <button onclick="build.addQuestion()">+ Add Question</button>
             <button onclick="main.setView('run')">✓ Finished</button>
+            <button onclick="main.saveQuestions()">💾 Save to Computer</button>
+            <button onclick="main.setView('styling')">Style Questions</button>
+        </div>
+        <div id="styling">
+            <h1>Style your questions</h1>
+            <div class="question sampleQuestion" id="sampleQuestion">
+                This is a sample question.
+                
+                <ul>
+                    <li>Option 1</li>
+                    <li>Option 2</li>
+                    <li>Option 3</li>
+                </ul>
+            </div>
+            <div class="colourPicker">
+                <div>Question background colour:</div>
+                <div id="backgroundColourSelector"></div>
+            </div>
+            <div class="colourPicker">
+                <div>Text colour:</div>
+                <div id="textColourSelector"></div>
+            </div>
+            <div class="slider">
+                <label for="fontSizeSlider">Font size: </label>
+                <input type="range" min="12" max="48" value="14" class="slider" id="fontSizeSlider">
+            </div>
+            <button onclick="styling.finished()">✓ Finished</button>
             <button onclick="main.saveQuestions()">💾 Save to Computer</button>
         </div>
     </body>

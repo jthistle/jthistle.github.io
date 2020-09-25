@@ -13,7 +13,7 @@ var questionsModel = {
 }
 
 function _main() {
-  var VIEWS = ["start", "run", "build"];
+  var VIEWS = ["start", "run", "build", "styling"];
 
   function setView(newView) {
     VIEWS.forEach(function (view) {
@@ -33,6 +33,7 @@ function _main() {
       setView('run');
       build.rebuildDOM();
       picker.resetHistory();
+      styling.reset();
     };
     reader.readAsText(e.target.files[0]);
   }
@@ -56,19 +57,26 @@ function _main() {
     document.body.removeChild(downloadLink);
   }
 
+  function applyStyles(el) {
+    for (var prop in questionsModel.styling.question) {
+      el.style[prop] = questionsModel.styling.question[prop];
+    }
+  }
+
   return {
     setView: setView,
     loadQuestionsFile: loadQuestionsFile,
     newQuestionPack: newQuestionPack,
     saveQuestions: saveQuestions,
+    applyStyles: applyStyles,
   };
 }
 
 var main = _main();
 
-window.onload = function () {
+window.addEventListener("load", function () {
   main.setView("start");
   document.getElementById("questionLoader").addEventListener("change", function (e) { 
     main.loadQuestionsFile(e);
   });
-}
+});

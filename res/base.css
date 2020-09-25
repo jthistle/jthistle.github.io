@@ -84,3 +84,29 @@ button.delete {
     color: white;
     font-weight: bold;
 }
+
+.sampleQuestion {
+    margin-bottom: 2rem;
+}
+
+.colourPicker {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 4rem;
+}
+
+.colourPicker .pcr-button {
+    margin-left: 2rem;
+    border: 1px solid black;
+}
+
+.slider {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.slider input {
+    margin-left: 2rem;
+}

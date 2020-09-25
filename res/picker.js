@@ -14,6 +14,8 @@ function _picker() {
     base.appendChild(newQ);
 
     newQ.innerHTML = markdown.parseToHTML(question.content);
+
+    main.applyStyles(newQ);
   }
   
   function nextQuestion() {

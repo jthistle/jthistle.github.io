@@ -24,6 +24,8 @@ function _build() {
     deleteBtn.textContent = "Delete Question"
     deleteBtn.classList.add("delete");
     buttons.appendChild(deleteBtn);
+
+    return newQ;
   }
 
   function showQuestionEditing(question, base, i) {
@@ -59,6 +61,8 @@ function _build() {
     addImgBtn.setAttribute("onclick", "document.getElementById('addImg').click()");
     addImgBtn.textContent = "Add Image";
     buttons.appendChild(addImgBtn);
+
+    return newQ;
   }
 
   function rebuildDOM() {
@@ -66,11 +70,15 @@ function _build() {
     base.textContent = "";
     var i = 0;
     questionsModel.questions.forEach(function (question) {
+      var q;
       if (editing === i) {
-        showQuestionEditing(question, base, i);
+        q = showQuestionEditing(question, base, i);
       } else {
-        showQuestion(question, base, i);
+        q = showQuestion(question, base, i);
       }
+
+      main.applyStyles(q);
+      
       i += 1;
     });
   }
@@ -94,6 +102,7 @@ function _build() {
   function deleteQuestion(i) {
     questionsModel.questions.splice(i, 1);
     rebuildDOM();
+    picker.resetHistory();
   }
 
   function addQuestion() {
