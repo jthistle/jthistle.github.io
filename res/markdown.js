@@ -22,7 +22,7 @@ function _markdown() {
       });
     }
 
-    var sanitised = "\n" + src;
+    var sanitised = "\n" + src + "\n";
     replace.reverse();
     replace.forEach(function (replacement) {
       sanitised = sanitised.substring(0, replacement.span[0]) + replacement.new + sanitised.substring(replacement.span[1] + 1, sanitised.length);

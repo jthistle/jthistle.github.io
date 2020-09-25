@@ -9,6 +9,7 @@ var questionsModel = {
   ],
   // Images are stored an object with the key as the filename and the value as the raw image
   images: {},
+  version: 1,
 }
 
 function _main() {
