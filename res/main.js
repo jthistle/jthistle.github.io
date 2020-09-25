@@ -45,9 +45,18 @@ function _main() {
   }
 
   function saveQuestions() {
+    var data = JSON.stringify(questionsModel);
+    var filename = "my-questions.json";
+
+    // IE and Edge compat
+    if (navigator.hasOwnProperty("msSaveBlob")) {
+      navigator.msSaveBlob(new Blob([data], {type: "text/plain"}), filename);
+      return;
+    } 
+
     var downloadLink = document.createElement("a");
-    downloadLink.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(questionsModel)));
-    downloadLink.setAttribute("download", "my-questions.json");
+    downloadLink.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(data));
+    downloadLink.setAttribute("download", filename);
 
     downloadLink.style.display = "none";
     document.body.appendChild(downloadLink);
