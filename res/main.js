@@ -49,7 +49,7 @@ function _main() {
     var filename = "my-questions.json";
 
     // IE and Edge compat
-    if (navigator.hasOwnProperty("msSaveBlob")) {
+    if (navigator.msSaveBlob) {
       navigator.msSaveBlob(new Blob([data], {type: "text/plain"}), filename);
       return;
     } 
