@@ -8,6 +8,7 @@ function _markdown() {
   var ul_li_re = /\n\s*[-*]\s(.*)/gi;
   var ol_re = /\n((?:\d\.\s.*?\n)+)/gi;
   var ol_li_re = /\n\s*\d\.\s(.*)/gi;
+  var double_space_re = /\s\s/gi;
 
   function parseToHTML(src) {
     var replace = [];
@@ -40,6 +41,8 @@ function _markdown() {
 
     sanitised = sanitised.replace(bold_re, "<b>$1$2</b>");
     sanitised = sanitised.replace(italic_re, "<i>$1$2</i>");
+
+    sanitised = sanitised.replace(double_space_re, "&nbsp;&nbsp;");
 
     return sanitised;
   }
