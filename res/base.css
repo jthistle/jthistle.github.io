@@ -110,3 +110,8 @@ button.delete {
 .slider input {
     margin-left: 2rem;
 }
+
+#mergeOutput {
+    font-weight: bold;
+    margin: 1rem 0;
+}

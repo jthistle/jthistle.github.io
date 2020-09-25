@@ -9,11 +9,14 @@ var questionsModel = {
   ],
   // Images are stored an object with the key as the filename and the value as the raw image
   images: {},
+  meta: {
+    name: "question pack",
+  },
   version: 1,
 }
 
 function _main() {
-  var VIEWS = ["start", "run", "build", "styling"];
+  var VIEWS = ["start", "run", "build", "styling", "merge"];
 
   function setView(newView) {
     VIEWS.forEach(function (view) {
@@ -25,11 +28,11 @@ function _main() {
   }
 
   function loadQuestionsFile(e) {
-    console.log(e);
     var reader = new FileReader();
     reader.onload = function (){
       var txt = decodeURIComponent(reader.result);
       questionsModel = JSON.parse(txt);
+      updateName();
       setView('run');
       build.rebuildDOM();
       picker.resetHistory();
@@ -39,14 +42,26 @@ function _main() {
   }
   
   function newQuestionPack() {
+    questionsModel.meta.name = document.getElementById("packName").value.slice(0, 64);   // don't let name get too long
+    if (questionsModel.meta.name.trim() === "") {
+      return;
+    }
+    updateName();
     setView("build");
     build.rebuildDOM();
     picker.resetHistory();
   }
 
+  function updateName() {
+    document.getElementsByClassName("replacePackName").forEach(function (el) {
+      el.textContent = questionsModel.meta.name;
+    });
+  }
+
+  var sanitise_re = /[^a-z0-9_]/gi
   function saveQuestions() {
     var data = JSON.stringify(questionsModel);
-    var filename = "my-questions.json";
+    var filename = questionsModel.meta.name.replace(sanitise_re, "-") + ".json";
 
     // IE and Edge compat
     if (navigator.msSaveBlob) {

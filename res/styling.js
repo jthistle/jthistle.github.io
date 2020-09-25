@@ -57,7 +57,7 @@ function _styling() {
   function reset() {
     bgdPickr.setColor(questionsModel.styling.question.backgroundColor || "#ffffff");
     textColourPickr.setColor(questionsModel.styling.question.color || "#000000");
-    var fontSize = questionsModel.styling.question.fontSize;
+    var fontSize = questionsModel.styling.question.fontSize || "14pt";
     document.getElementById("fontSizeSlider").value = fontSize.slice(0, fontSize.length - 2);
     main.applyStyles(sampleQuestion);
   }

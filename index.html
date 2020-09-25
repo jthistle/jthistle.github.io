@@ -10,12 +10,14 @@
         <script type="text/javascript" src="res/picker.js"></script>
         <script type="text/javascript" src="res/builder.js"></script>
         <script type="text/javascript" src="res/styling.js"></script>
+        <script type="text/javascript" src="res/merge.js"></script>
     </head>
     <body id="body">
         <div id="nav">
         </div>
         <div id="start">
             <h1>Starter question maker</h1>
+            Your pack's name: <input value="My First Question Pack" type="text" id="packName" />
             <button id="newQuestions" onclick="main.newQuestionPack()">Start a new question pack</button>
             <p>or, load an existing questions file:</p>
             <input type="file" id="questionLoader" />
@@ -30,17 +32,18 @@
             </div>
         </div>
         <div id="build">
-            <h1>Build your question pack</h1>
+            <h1>Building '<span class="replacePackName"></span>'</h1>
             <div id="editQuestions">
 
             </div>
             <button onclick="build.addQuestion()">+ Add Question</button>
             <button onclick="main.setView('run')">✓ Finished</button>
             <button onclick="main.saveQuestions()">💾 Save to Computer</button>
-            <button onclick="main.setView('styling')">Style Questions</button>
+            <button onclick="main.setView('styling')">🖌 Style Questions</button>
+            <button onclick="main.setView('merge')">↱↰ Merge Question Files</button>
         </div>
         <div id="styling">
-            <h1>Style your questions</h1>
+            <h1>Styling '<span class="replacePackName"></span>'</h1>
             <div class="question sampleQuestion" id="sampleQuestion">
                 This is a sample question.
                 
@@ -63,6 +66,13 @@
                 <input type="range" min="12" max="48" value="14" class="slider" id="fontSizeSlider">
             </div>
             <button onclick="styling.finished()">✓ Finished</button>
+            <button onclick="main.saveQuestions()">💾 Save to Computer</button>
+        </div>
+        <div id="merge">
+            <h1>Merge question pack into '<span class="replacePackName"></span>'</h1>
+            Select question pack: <input type="file" id="mergeFileInput" />
+            <div id="mergeOutput"></div>
+            <button onclick="merge.finish()">✓ Finished</button>
             <button onclick="main.saveQuestions()">💾 Save to Computer</button>
         </div>
     </body>

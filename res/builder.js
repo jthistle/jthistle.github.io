@@ -141,9 +141,7 @@ function _build() {
       if (!foundMatch) {
         if (found) {
           // Add -1 to end of filename if name is duplicated
-          var parts = filename.split(".");
-          parts[0] += "-1";
-          filename = parts.join(".");
+          filename = addFilenameSuffix(filename);
         }
         questionsModel.images[filename] = url;
       }
@@ -155,6 +153,12 @@ function _build() {
     };
     reader.readAsDataURL(input.files[0]);
   }
+
+  function addFilenameSuffix(filename) {
+    var parts = filename.split(".");
+    parts[0] += "-1";
+    return parts.join(".");
+  }
   
   return {
     rebuildDOM: rebuildDOM,
@@ -163,6 +167,7 @@ function _build() {
     editQuestion: editQuestion,
     saveQuestion: saveQuestion,
     addImage: addImage,
+    addFilenameSuffix: addFilenameSuffix,
   };
 }
 
