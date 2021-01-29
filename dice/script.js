@@ -1,7 +1,13 @@
 
+var STAGE_UNREADY = 1;
+var STAGE_READY = 2;
+var STAGE_REMOVE = 3;
+
 var dice = [];
 var statusText;
 var diceCount = 100;
+
+var stage = STAGE_UNREADY;
 
 function onReady() {
   statusText = document.getElementById("status");
@@ -12,8 +18,6 @@ function onReady() {
     test_die.setPosition([window.innerWidth / 2, -150]);
   }
 
-  // roll();
-
   document.getElementById("rollBtn").addEventListener("click", roll);
   document.getElementById("removeBtn").addEventListener("click", removeSixes);
 
@@ -21,10 +25,14 @@ function onReady() {
   console.log("Follow me on GitHub: https://github.com/jthistle");
 
   statusText.innerHTML = diceCount + " dice. Press 'roll' to start.";
+  stage = STAGE_READY;
 }
 
 
 function roll() {
+  if (stage !== STAGE_READY) return;
+  stage = STAGE_UNREADY;
+
   dice.forEach(function (d) {
     d.setPosition([window.innerWidth / 2, -150]);
   });
@@ -58,13 +66,21 @@ function arrange() {
   var x = initX;
   var y = initY;
 
+  var done = 0;
+  var count = 0;
   dice.forEach(function (d) {
+    count += 1;
     if (x > maxX) {
       x = initX;
       y += gridSize;
     }
 
-    d.moveTo([x, y], 1000);
+    d.moveTo([x, y], 1000, function () {
+      done += 1;
+      if (done === count) {
+        stage = STAGE_REMOVE;
+      }
+    });
     d.straighten(1000);
     x += gridSize;
   });
@@ -72,6 +88,8 @@ function arrange() {
 
 
 function removeSixes() {
+  if (stage !== STAGE_REMOVE) return;
+
   for (var i = dice.length - 1; i > -1; --i) {
     var d = dice[i];
     if (d.getValue() == 6) {
@@ -81,6 +99,7 @@ function removeSixes() {
     diceCount -= 1;
   }
   updateStatus();
+  stage = STAGE_READY;
 }
 
 
