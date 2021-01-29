@@ -1,32 +1,42 @@
 
-var dies = [];
+var dice = [];
+var statusText;
+var diceCount = 100;
 
 function onReady() {
-  for (var i = 0; i < 100; ++i) {
+  statusText = document.getElementById("status");
+
+  for (var i = 0; i < diceCount; ++i) {
     var test_die = Die();
-    dies.push(test_die);
+    dice.push(test_die);
+    test_die.setPosition([window.innerWidth / 2, -150]);
   }
 
-  roll();
+  // roll();
 
   document.getElementById("rollBtn").addEventListener("click", roll);
   document.getElementById("removeBtn").addEventListener("click", removeSixes);
 
   console.log("Hello :)");
   console.log("Follow me on GitHub: https://github.com/jthistle");
+
+  statusText.innerHTML = diceCount + " dice. Press 'roll' to start.";
 }
 
 
 function roll() {
-  dies.forEach(function (d) {
+  dice.forEach(function (d) {
     d.setPosition([window.innerWidth / 2, -150]);
   });
 
-  dies.forEach(function (d) {
+  dice.forEach(function (d) {
     d.roll();
   })
   
-  setTimeout(arrange, 5000);
+  setTimeout(function () {
+    arrange();
+    updateStatus();
+  }, 5000);
 }
 
 
@@ -48,7 +58,7 @@ function arrange() {
   var x = initX;
   var y = initY;
 
-  dies.forEach(function (d) {
+  dice.forEach(function (d) {
     if (x > maxX) {
       x = initX;
       y += gridSize;
@@ -62,13 +72,23 @@ function arrange() {
 
 
 function removeSixes() {
-  for (var i = dies.length - 1; i > -1; --i) {
-    var d = dies[i];
+  for (var i = dice.length - 1; i > -1; --i) {
+    var d = dice[i];
     if (d.getValue() == 6) {
       d.begone();
-      dies.splice(i, 1);
+      dice.splice(i, 1);
     }
+    diceCount -= 1;
   }
+  updateStatus();
+}
+
+
+function updateStatus() {
+  sixes = dice.reduce(function (a, d) {
+    return a + (d.getValue() == 6 ? 1 : 0);
+  }, 0);
+  statusText.textContent = dice.length + " dice, of which " + sixes + " six" + (sixes === 1 ? "" : "es");
 }
 
 
