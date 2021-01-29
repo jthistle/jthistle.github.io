@@ -1,0 +1,21 @@
+
+body {
+    margin: 0;
+    background: #0d720b;
+}
+
+.die {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    /* background: white; */
+    background-size: contain;
+}
+
+
+@media(max-width: 640px) {
+    .die {
+        width: 50px;
+        height: 50px;
+    }
+}
