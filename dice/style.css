@@ -12,10 +12,18 @@ body {
     background-size: contain;
 }
 
+button {
+    margin: 10px;
+    color: white;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #035910;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px;
+    transition: all 0.2s;
+}
 
-@media(max-width: 640px) {
-    .die {
-        width: 50px;
-        height: 50px;
-    }
+button:hover {
+    background: rgba(0, 0, 0, 0.15);
 }

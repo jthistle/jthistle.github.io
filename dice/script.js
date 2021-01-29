@@ -32,14 +32,22 @@ function roll() {
 
 function arrange() {
   var initX = 50;
-  var initY = 50;
+  var initY = 75;
 
+  var gridSize = 50;
+
+  var maxX;
+
+  if (window.screen.width < 640) {
+    maxX = window.innerWidth - 50;
+    initX = 20;
+  } else {
+    maxX = window.innerWidth - 100;
+  }
+  
   var x = initX;
   var y = initY;
-  var maxX = window.innerWidth - 100;
 
-  var gridSize = window.screen.width < 640 ? 50 : 50;
-  
   dies.forEach(function (d) {
     if (x > maxX) {
       x = initX;
@@ -57,7 +65,7 @@ function removeSixes() {
   for (var i = dies.length - 1; i > -1; --i) {
     var d = dies[i];
     if (d.getValue() == 6) {
-      d.moveTo([200, -200]);
+      d.begone();
       dies.splice(i, 1);
     }
   }
@@ -97,7 +105,7 @@ function interpolate(a, b, t) {
   return b;
 }
 
-function slerp(callback, a, b, t) {
+function slerp(callback, a, b, t, onFinish) {
   var total = 0;
   var handle = setInterval(function() {
     callback(
@@ -108,6 +116,7 @@ function slerp(callback, a, b, t) {
     if (total >= t) {
       clearInterval(handle);
       callback(b);
+      onFinish && onFinish();
     }
   }, 15);
 }
@@ -174,8 +183,8 @@ function Die() {
     node.style.backgroundImage = "url(die" + val + ".png)";
   }
 
-  function moveTo(newPos, duration) {
-    slerp(updatePos, position, newPos, duration || 500);
+  function moveTo(newPos, duration, onFinish) {
+    slerp(updatePos, position, newPos, duration || 500, onFinish);
     position = newPos;
   }
   
@@ -192,6 +201,12 @@ function Die() {
     slerp(updateRotation, rotation, 0, duration || 1000);
     rotation = 0;
   }
+
+  function begone() {
+    moveTo([200, -200], 1000, function () {
+      document.getElementById("main").removeChild(node);
+    });
+  }
   
   return {
     roll: roll,
@@ -201,7 +216,8 @@ function Die() {
       updatePos(newPos);
     },
     straighten: straighten,
-    getValue: function () { return value; }
+    getValue: function () { return value; },
+    begone: begone,
   };
 }
 
