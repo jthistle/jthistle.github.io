@@ -2,6 +2,7 @@
 var STAGE_UNREADY = 1;
 var STAGE_READY = 2;
 var STAGE_REMOVE = 3;
+var STAGE_DONE = 4;
 
 var dice = [];
 var statusText;
@@ -23,8 +24,9 @@ function onReady() {
 
   console.log("Hello :)");
   console.log("Follow me on GitHub: https://github.com/jthistle");
+  console.log("View source code at: https://github.com/jthistle/jthistle.github.io/tree/master/dice");
 
-  statusText.innerHTML = diceCount + " dice. Press 'roll' to start.";
+  statusText.innerHTML = "Starting with " + diceCount + " dice. Press 'roll' to start.";
   stage = STAGE_READY;
 }
 
@@ -32,19 +34,29 @@ function onReady() {
 function roll() {
   if (stage !== STAGE_READY) return;
   stage = STAGE_UNREADY;
+  updateStatus();
 
   dice.forEach(function (d) {
     d.setPosition([window.innerWidth / 2, -150]);
   });
 
+  var durMin, durMax;
+  if (dice.length < 25) {
+    durMin = 500;
+    durMax = 1250;
+  } else if (dice.length < 50) {
+    durMin = 850;
+    durMax = 1750;
+  }
+
   dice.forEach(function (d) {
-    d.roll();
+    d.roll(durMin, durMax);
   })
   
   setTimeout(function () {
     arrange();
     updateStatus();
-  }, 5000);
+  }, (durMax || 3000) + 1500);
 }
 
 
@@ -78,7 +90,12 @@ function arrange() {
     d.moveTo([x, y], 1000, function () {
       done += 1;
       if (done === count) {
-        stage = STAGE_REMOVE;
+        if (countSixes() === 0) {
+          stage = STAGE_READY;
+        } else {
+          stage = STAGE_REMOVE;
+        }
+        updateStatus();
       }
     });
     d.straighten(1000);
@@ -92,22 +109,39 @@ function removeSixes() {
 
   for (var i = dice.length - 1; i > -1; --i) {
     var d = dice[i];
-    if (d.getValue() == 6) {
+    if (d.getValue() === 6) {
       d.begone();
       dice.splice(i, 1);
     }
     diceCount -= 1;
   }
+  if (dice.length === 0) {
+    stage = STAGE_DONE;
+  } else {
+    stage = STAGE_READY;
+  }
   updateStatus();
-  stage = STAGE_READY;
 }
 
+function countSixes() {
+  return dice.reduce(function (a, d) {
+    return a + (d.getValue() === 6 ? 1 : 0);
+  }, 0);
+}
 
 function updateStatus() {
-  sixes = dice.reduce(function (a, d) {
-    return a + (d.getValue() == 6 ? 1 : 0);
-  }, 0);
+  if (stage === STAGE_REMOVE) {
+    statusText.textContent = "Press 'remove sixes' once you have counted sixes";
+  } else if (stage === STAGE_READY) {
+    statusText.textContent = "Press 'roll' to roll remaining dice";
+  } else if (stage === STAGE_UNREADY) {
+    statusText.textContent = "Rolling...";
+  } else if (stage === STAGE_DONE) {
+    statusText.textContent = "No more dice! Reload the page to start again.";
+  }
+  /*
   statusText.textContent = dice.length + " dice, of which " + sixes + " six" + (sixes === 1 ? "" : "es");
+  */
 }
 
 
@@ -130,7 +164,7 @@ function interpolate(a, b, t) {
 
   var p = (-2 * Math.pow(t, 3) + 3 * Math.pow(t, 2));
 
-  if (typeof(a) == "number") {
+  if (typeof(a) === "number") {
     return a + (b - a) * p; 
   } else if (Array.isArray(a)) {
     return b.map(
@@ -191,8 +225,8 @@ function Die() {
 
   updateDisplay();
 
-  function roll() {
-    var duration = randint(1500, 2250);
+  function roll(durMin, durMax) {
+    var duration = randint(durMin || 1500, durMax || 2250);
 
     var newPos = [
       randint(100, window.innerWidth - 100),
