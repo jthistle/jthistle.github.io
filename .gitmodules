@@ -1,0 +1,3 @@
+[submodule "bf"]
+	path = bf
+	url = git@github.com:jthistle/bf-editor.git
